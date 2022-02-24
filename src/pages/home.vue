@@ -1,12 +1,21 @@
 <template>
-  <navheader></navheader>
-
-  <nav-footer></nav-footer>
-  <p>home</p>
+  <div id="home">
+    <p>home</p>
+    <navheader></navheader>
+    <router-view></router-view>
+    <navfooter></navfooter>
+  </div>
 </template>
 
 <script>
+import navheader from '../components/NavHeader.vue'
+import navfooter from '../components/NavFooter.vue'
+
 export default {
-  name: ""
+  name: "home",
+  components: {
+    navheader,
+    navfooter,
+  }
 }
 </script>

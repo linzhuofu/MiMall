@@ -1,15 +1,18 @@
 <template>
+  <div>
+    <h1>order</h1>
 
-  <h1>order</h1>
+    <navheader></navheader>
+
+  </div>
 
 </template>
 <script>
-
-
+import navheader from '../components/NavHeader.vue'
 export default {
-  name: 'Order',
+  name: 'order',
   components: {
-
+    navheader
   }
 }
 </script>
