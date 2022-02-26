@@ -2,7 +2,7 @@
 // import Router from 'vue-router'
 // Vue.use(Router);
 
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import home from "./pages/home"
 import index from "./pages/index"
 import product from "./pages/product"
@@ -17,7 +17,7 @@ import alipay from "./pages/alipay"
 
 
 export default createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [{
             path: "/",
             redirect: '/index',
