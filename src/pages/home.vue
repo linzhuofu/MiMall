@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <p>home</p>
+
     <navheader></navheader>
     <router-view></router-view>
     <navfooter></navfooter>
@@ -12,11 +12,13 @@ import storage from '../storage/index'
 import navheader from '../components/NavHeader.vue'
 import navfooter from '../components/NavFooter.vue'
 
+
 export default {
   name: "home",
   components: {
     navheader,
     navfooter,
+
   },
   mounted () {
     // el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
