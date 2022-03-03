@@ -5,7 +5,7 @@ import axios from 'axios'
 import router from "./router"
 // import env from "./env"
 
-import 'swiper/swiper-bundle.css'
+
 
 
 

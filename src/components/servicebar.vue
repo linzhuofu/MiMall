@@ -15,7 +15,8 @@
 
 
 export default {
-  name: "servicebar"
+  name: "servicebar",
+
 }
 </script>
 <style lang="scss"  scoped>
