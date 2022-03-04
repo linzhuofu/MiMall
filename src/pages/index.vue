@@ -1,5 +1,6 @@
 <template>
-  <div class="index">
+  <div class="index"
+       ref="index">
     <div class="container">
       <div class="swiper-box">
         <div class="nav-menu">
@@ -107,8 +108,17 @@
         </div>
       </div>
     </div>
-    <servicebar></servicebar>
-    <modal></modal>
+    <servicebar ref="servicebar"></servicebar>
+    <modal title="提示"
+           sureText="查看购物车"
+           btnType="1"
+           modalType="middle"
+           :showModal="true">
+      <template v-slot:body>
+        <h1>Here might be a page title</h1>
+      </template>
+
+    </modal>
   </div>
 </template>
 <script>
@@ -218,11 +228,22 @@ export default {
   },
 
   mounted () {
+    this.servicebaar();
+    this.index();
     this.init()
     // el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
   },
   methods: {
     // 方法定义
+    servicebaar () {
+      console.log("this.$refs.servicebar", this.$refs.servicebar);
+    },
+    index () {
+
+
+      console.log("this.$refs.index", this.$refs.index);
+
+    },
     init () {
       this.$api.get('mock/user/product.json')
         .then((res) => {

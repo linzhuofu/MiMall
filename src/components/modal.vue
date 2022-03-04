@@ -5,7 +5,7 @@
     <div class="mask"></div>
     <div class="modal-dialog">
       <div class="modal-header">
-        <span></span>
+        <span>{{title}}</span>
         <a href="javascript:;"
            class="icon-close"></a>
       </div>
@@ -13,15 +13,11 @@
         <slot name="body"></slot>
       </div>
       <div class="modal-footer">
-        <a href="javascript:;"
-           class="btn"></a>
-        <a href="javascript:;"
-           class="btn"></a>
         <div class="btn-group">
           <a href="javascript:;"
-             class="btn"></a>
+             class="btn">确定</a>
           <a href="javascript:;"
-             class="btn btn-default"></a>
+             class="btn btn-default">取消</a>
         </div>
       </div>
     </div>
@@ -64,5 +60,8 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style  lang="scss" scoped>
+@import "../assets/scss/mixin.scss";
+@import "../assets/scss/config.scss";
+@import "../assets/scss/modal.scss";
 </style>
