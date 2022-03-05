@@ -1,27 +1,37 @@
 <!--  -->
 <template>
-  <div class="modal"
-       v-show="showModal">
-    <div class="mask"></div>
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <span>{{title}}</span>
-        <a href="javascript:;"
-           class="icon-close"></a>
-      </div>
-      <div class="modal-body">
-        <slot name="body"></slot>
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group">
+  <transition name="slide">
+    <div class="modal"
+         v-show="showModal">
+      <div class="mask"></div>
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span>{{title}}</span>
           <a href="javascript:;"
-             class="btn">确定</a>
+             class="icon-close"
+             @click="$emit('close')"></a>
+        </div>
+        <div class="modal-body">
+          <slot name="body"></slot>
+        </div>
+        <div class="modal-footer">
           <a href="javascript:;"
-             class="btn btn-default">取消</a>
+             class="btn"
+             v-if="btnType==1">{{sureText}}</a>
+          <a href="javascript:;"
+             class="btn btn-default"
+             v-if="btnType==2">{{cancelText}}</a>
+          <div class="btn-group"
+               v-if="btnType==3">
+            <a href="javascript:;"
+               class="btn">{{sureText}}</a>
+            <a href="javascript:;"
+               class="btn btn-default">{{cancelText}}</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -31,6 +41,7 @@
 export default {
   //import引入的组件需要注入到对象中才能使用
   name: "modal",
+  emits: ["close"],
   components: {},
   data () {
     //这里存放数据

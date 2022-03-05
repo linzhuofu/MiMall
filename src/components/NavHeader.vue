@@ -42,9 +42,9 @@
                 <li class="product"
                     v-for="item in phoneList"
                     :key="item.id">
-                  <a href=""
+                  <a :href="'/#/product/'+item.id"
                      target="_blank">
-                    <div class="pro-img"><img :src="item.mainImage"
+                    <div class="pro-img"><img v-lazy="item.mainImage"
                            alt=""></div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">￥{{item.price.toFixed(2)}}元</div>
@@ -136,8 +136,6 @@
     </div>
   </div>
 </template>
-
-
 <script>
 export default {
   name: "navheader",
@@ -154,7 +152,6 @@ export default {
     goToCart () {
       this.$router.push('/cart')
       console.log("goToCart");
-
     },
     getProductList () {
       this.$api.get('mock/user/navheader.json')

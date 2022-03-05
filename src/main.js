@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import axios from 'axios'
+import store from './store/index.js'
+
 // import vueaxios from 'vue-axios'
 import router from "./router"
 // import env from "./env"
-
-
-
+import lazyPlugin from 'vue3-lazy'
 
 
 //mock开关
@@ -16,8 +16,15 @@ if (mock) {
 }
 
 
-const app = createApp(App).use(router)
+const app = createApp(App).use(router).use(store)
+    //vue3-lazy图片懒加载的使用
+lazyPlugin.install(app, {
+    loading: '/imgs/loading-svg/loading-bars.svg',
+})
 
+
+
+console.log("app", app);
 
 app.config.globalProperties.$filters = {
         currencyUSD(value) {

@@ -66,13 +66,13 @@
         <a v-bind:href="'/#/product/'+item.id"
            v-for="(item,index) in adsList"
            v-bind:key="index">
-          <img :src="item.img"
+          <img v-lazy="item.img"
                alt="">
         </a>
       </div>
       <div class="banner">
         <a href="/#/product/30">
-          <img src="/imgs/banner-1.png"
+          <img v-lazy="'/imgs/banner-1.png'"
                alt="">
         </a>
       </div>
@@ -82,7 +82,7 @@
           <div class="wrapper">
             <div class="banner-left">
               <a href="/#/product/35"><img alt=""
-                     src="/imgs/mix-alpha.jpg"></a>
+                     v-lazy="'/imgs/mix-alpha.jpg'"></a>
             </div>
             <div class="list-box">
               <div class="list"
@@ -94,12 +94,13 @@
                   <span v-bind:class="{'new-pro':j%2==0}">新品</span>
                   <div class="item-img">
                     <img alt=""
-                         :src="item.mainImage">
+                         v-lazy="item.mainImage">
                   </div>
                   <div class="item-info">
                     <h3>{{item.name}}</h3>
                     <p>{{item.subtitle}}</p>
-                    <p class="price">{{item.price}}元</p>
+                    <p class="price"
+                       @click="addCart">{{item.price}}元</p>
                   </div>
                 </div>
               </div>
@@ -113,11 +114,11 @@
            sureText="查看购物车"
            btnType="1"
            modalType="middle"
-           :showModal="true">
+           :showModal="showModal"
+           @close="closewindow">
       <template v-slot:body>
         <h1>Here might be a page title</h1>
       </template>
-
     </modal>
   </div>
 </template>
@@ -151,6 +152,9 @@ export default {
   },
   data () {
     return {
+      //弹窗的开关控制
+      showModal: false,
+      //轮播图的控制
       swiperOption: {
         autoplay: true,
         loop: true,
@@ -167,7 +171,9 @@ export default {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         }
-      }, menuList: [[{
+      },
+      //二级菜单数据
+      menuList: [[{
         id: 1,
         img: "imgs/item-box-1.png",
         name: "小米CC9"
@@ -185,6 +191,7 @@ export default {
         name: "小米CC9"
       },
       ], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+      //广告位数据banner上面的数据
       adsList: [
         {
           id: 33,
@@ -200,6 +207,7 @@ export default {
           img: '/imgs/ads/ads-4.jpg'
         }
       ],
+      //轮播图数据
       slideList: [
         {
           id: '1',
@@ -222,6 +230,7 @@ export default {
           img: '/imgs/slider/slide-1.jpg'
         }
       ],
+      //手机商品数据
       phoneList: [],
     }
 
@@ -235,6 +244,15 @@ export default {
   },
   methods: {
     // 方法定义
+    closewindow () {
+      //关闭弹窗
+      this.showModal = false;
+    },
+    addCart () {
+      console.log("点击加入购物车");
+      this.showModal = true;
+
+    },
     servicebaar () {
       console.log("this.$refs.servicebar", this.$refs.servicebar);
     },

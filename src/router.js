@@ -7,6 +7,7 @@ import home from "./pages/home"
 import index from "./pages/index"
 import product from "./pages/product"
 import detail from "./pages/detail"
+import login from "./pages/login"
 import cart from "./pages/cart"
 import order from "./pages/order"
 import orderpay from "./pages/orderpay"
@@ -40,6 +41,11 @@ export default createRouter({
                     component: detail
                 },
             ],
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: login
         },
         {
             path: "/cart",
