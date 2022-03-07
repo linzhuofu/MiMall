@@ -19,7 +19,7 @@
           <a href="javascript:;">注册</a>
           <a href="javascript:;"
              class="my-cart"
-             @click="goToCart"><span class="icon-cart"></span>购物车</a>
+             @click="goToCart"><span class="icon-cart"></span>购物车({{cartcount}})</a>
         </div>
       </div>
 
@@ -169,7 +169,15 @@ export default {
   computed: {
     accountInUSD () {
       return '$' + this.accountBalance
+    },
+    //防止请求延时设置computed  数据发生变化会重新计算
+    username () {
+      return this.$store.state.username
+    },
+    cartcount () {
+      return this.$store.state.cartcount;
     }
+
   }
 }
 </script>

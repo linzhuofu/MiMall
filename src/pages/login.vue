@@ -21,12 +21,14 @@
                    v-model="password">
           </div>
           <div class="btn-box">
-            <a href="javascript:;"
-               class="btn">登录</a>
+            <a class="btn"
+               href="javascript:;"
+               @click.prevent="login($event)">登录</a>
           </div>
           <div class="tips">
             <div class="sms">手机短信登录/注册</div>
-            <div class="reg">立即注册<span>|</span>忘记密码？</div>
+            <div class="reg"
+                 @click="register">立即注册<span>|</span>忘记密码？</div>
           </div>
         </div>
       </div>
@@ -52,13 +54,48 @@ export default {
   name: 'login',
   data () {
     return {
-
+      username: "",
+      password: ""
     }
   },
   methods: {
+    login (events) {
+      //需要判定才可以放进vuex
 
+      events.preventDefault();
+      events.stopPropagation();
+      this.$api.post('/posts', {
+        username: this.username,
+        password: this.password
+      }).then((res) => {
+        // 处理成功情况
+        this.$store.dispatch("saveusername", {
+          username: res.username,
+          userid: res.id,
+        })
+        console.log("resresres", res);
+        this.$cookie.set("userid", res.id, { expires: '10m' })
+        console.log(res);
+        this.$router.push("/index")
+      })
+      // fetch('/posts').then(res => res.json()).then(res => {
+      //   console.log('res', res);
+      // })
+    },
+    register () {
+      this.$api.post('/register', {
+        username: 1369403243,
+        password: "LZf1369403243"
+      }).then((res) => {
+        // 处理成功情况
+
+        console.log(res);
+        this.$router.push("/index")
+      })
+    }
   }
 }
+
 </script>
 <style lang="scss">
 .login {

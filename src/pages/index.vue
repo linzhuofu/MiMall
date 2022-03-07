@@ -258,7 +258,7 @@ export default {
     },
     index () {
 
-
+      console.log("sssssssss", this.$cookie.get('userid'));
       console.log("this.$refs.index", this.$refs.index);
 
     },
@@ -266,6 +266,7 @@ export default {
       this.$api.get('mock/user/product.json')
         .then((res) => {
           // 处理成功情况
+          console.log("res", res);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]
           console.log("index", res);
         })
