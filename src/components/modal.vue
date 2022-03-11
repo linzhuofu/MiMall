@@ -17,6 +17,7 @@
         <div class="modal-footer">
           <a href="javascript:;"
              class="btn"
+             @click="$emit('submit','查看购物车')"
              v-if="btnType==1">{{sureText}}</a>
           <a href="javascript:;"
              class="btn btn-default"
@@ -41,7 +42,7 @@
 export default {
   //import引入的组件需要注入到对象中才能使用
   name: "modal",
-  emits: ["close"],
+  emits: ["close", "submit"],//这是vue3中的新增的设置
   components: {},
   data () {
     //这里存放数据

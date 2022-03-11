@@ -81,7 +81,7 @@
           <h2>手机</h2>
           <div class="wrapper">
             <div class="banner-left">
-              <a href="/#/product/35"><img alt=""
+              <a href="/#/product/4"><img alt=""
                      v-lazy="'/imgs/mix-alpha.jpg'"></a>
             </div>
             <div class="list-box">
@@ -100,7 +100,7 @@
                     <h3>{{item.name}}</h3>
                     <p>{{item.subtitle}}</p>
                     <p class="price"
-                       @click="addCart">{{item.price}}元</p>
+                       @click="addCart(item.id,item.name,item.subtitle,item.mainImage,item.price)">{{item.price}}元</p>
                   </div>
                 </div>
               </div>
@@ -115,7 +115,8 @@
            btnType="1"
            modalType="middle"
            :showModal="showModal"
-           @close="closewindow">
+           @close="closewindow"
+           @submit="gotocart">
       <template v-slot:body>
         <h1>Here might be a page title</h1>
       </template>
@@ -244,20 +245,40 @@ export default {
   },
   methods: {
     // 方法定义
+    gotocart (Viewshoppingcart) {
+      this.$router.push("/cart");
+      console.log("gotocart", Viewshoppingcart);
+    },
     closewindow () {
       //关闭弹窗
       this.showModal = false;
     },
-    addCart () {
+    async addCart (id, productname, productsubtitle, productmainImage, productprice,) {
       console.log("点击加入购物车");
       this.showModal = true;
-
+      let res = await this.$api.post("/carts", {
+        "userId": this.$store.state.username,
+        "productId": id,
+        "quantity": 1,
+        "productName": productname,
+        "productSubtitle": productsubtitle,
+        "productMainImage": productmainImage,
+        "productPrice": productprice,
+        "productStatus": 1,
+        "productTotalPrice": 86390.64,
+        "productStock": 86,
+        "productSelected": true
+      });
+      console.log("resresressssssssss", res);
+      this.$api.get("/carts").then((val = []) => {
+        console.log("valvalvalval", val);
+        this.$store.dispatch("savecartcount", { cartnum: val.length })
+      })
     },
     servicebaar () {
       console.log("this.$refs.servicebar", this.$refs.servicebar);
     },
     index () {
-
       console.log("sssssssss", this.$cookie.get('userid'));
       console.log("this.$refs.index", this.$refs.index);
 

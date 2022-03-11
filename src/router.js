@@ -25,7 +25,7 @@ export default createRouter({
             name: "home",
             component: home,
             children: [{
-                    path: "/product",
+                    path: "/product/:id",
                     name: "product",
                     component: product
                 },
@@ -36,7 +36,7 @@ export default createRouter({
                     component: index
                 },
                 {
-                    path: "/detail",
+                    path: "/detail/:id",
                     name: "detail",
                     component: detail
                 },

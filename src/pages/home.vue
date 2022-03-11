@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-
     <navheader></navheader>
     <router-view></router-view>
     <navfooter></navfooter>
@@ -11,7 +10,6 @@
 import storage from '../storage/index'
 import navheader from '../components/NavHeader.vue'
 import navfooter from '../components/NavFooter.vue'
-
 
 export default {
   name: "home",

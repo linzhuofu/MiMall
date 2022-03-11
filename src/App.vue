@@ -2,7 +2,6 @@
   <!-- <router-link to="/login">login</router-link>
   &nbsp;
   <router-link to="/order">order</router-link> -->
-  <button @click="increase">点击增加一个数字{{$store.state.username}}</button>
   <router-view></router-view>
 </template>
 
@@ -54,12 +53,12 @@ export default {
     // 方法定义
 
     getcartnum () {
-      this.$api.get("/cartnum").then((res) => {
-        console.log("getcartnum用户信息数据", res.data.data);
+      this.$api.get("/carts").then((res = []) => {
+        console.log("carts用户信息数据", res.data);
         // this.username = res.data[res.data.length - 1].username;
         // this.userid = res.data[res.data.length - 1].id;
         this.$store.dispatch("savecartcount", {
-          cartnum: res.data.data
+          cartnum: res.data.length
         })
 
       })
@@ -71,7 +70,7 @@ export default {
       this.$store.commit("add")
     },
     getuserinfo () {
-      this.$api.get("/posts").then((res) => {
+      this.$api.get("/posts").then((res = {}) => {
         console.log("用户信息数据", res);
         // this.username = res.data[res.data.length - 1].username;
         // this.userid = res.data[res.data.length - 1].id;
