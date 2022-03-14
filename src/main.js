@@ -4,6 +4,8 @@ import axios from 'axios'
 import store from './store/index.js'
 // var VueCookie = require('vue-cookie');
 import VueCookie from 'vue-cookie'
+import 'element-ui/lib/theme-chalk/index.css';
+import { ElMessage } from 'element-plus'
 // var VueCookie = require('vue-cookie');
 // import vueaxios from 'vue-axios'
 import router from "./router"
@@ -27,6 +29,7 @@ lazyPlugin.install(app, {
 
 
 console.log("app", app);
+app.config.globalProperties.$message = ElMessage
 app.config.globalProperties.$cookie = VueCookie
 app.config.globalProperties.$filters = {
         currencyUSD(value) {

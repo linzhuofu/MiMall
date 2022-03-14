@@ -15,6 +15,9 @@
           <a href="javascript:;"
              v-if="!username">登录</a>
           <a href="javascript:;"
+             v-if="username"
+             @click="logout">退出</a>
+          <a href="javascript:;"
              v-if="username">我的订单</a>
           <a href="javascript:;">注册</a>
           <a href="javascript:;"
@@ -150,6 +153,35 @@ export default {
     // 组件注册
   },
   methods: {
+    getcartnum () {
+      this.$api.get("/carts").then((res = []) => {
+        console.log("carts用户信息数据", res.data);
+        // this.username = res.data[res.data.length - 1].username;
+        // this.userid = res.data[res.data.length - 1].id;
+        this.$store.dispatch("savecartcount", {
+          cartnum: res.data.length
+        })
+
+      })
+
+
+    },
+    logout () {
+      this.$api.get("/users/logout").then(() => {
+        this.$message({
+          showClose: true,
+          message: '退出成功!',
+          center: true,
+          type: "success",
+          offset: 20
+        })
+        this.$cookie.set("userid", "", { expires: -1 })
+        this.$store.dispatch("saveusername", { username: "" })
+        this.$store.dispatch("savecartcount", { cartnum: 0 })
+      })
+      console.log("logout");
+
+    },
     goToCart () {
       this.$router.push('/cart')
       console.log("goToCart");
@@ -164,10 +196,17 @@ export default {
     }
 
     // 方法定义
-  }, mounted () {
+  },
+  mounted () {
     this.getProductList()
+    console.log("this.$route", this.$route);
+    if (this.$route.params.from == "login") {
+      this.getcartnum();
+    }
+
   },
   computed: {
+
     accountInUSD () {
       return '$' + this.accountBalance
     },

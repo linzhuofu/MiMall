@@ -61,7 +61,6 @@ export default {
   methods: {
     login (events) {
       //需要判定才可以放进vuex
-
       events.preventDefault();
       events.stopPropagation();
       this.$api.post('/posts', {
@@ -73,10 +72,10 @@ export default {
           username: res.username,
           userid: res.id,
         })
-        console.log("resresres", res);
-        this.$cookie.set("userid", res.id, { expires: '10m' })
+        console.log("resresreslogin", res);
+        this.$cookie.set("userid", res.id, { expires: 'Session' })
         console.log(res);
-        this.$router.push("/index")
+        this.$router.push({ name: "index", params: { from: "login" } })
       })
       // fetch('/posts').then(res => res.json()).then(res => {
       //   console.log('res', res);

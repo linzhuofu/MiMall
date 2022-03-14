@@ -54,7 +54,7 @@
 
           </div>
           <div class="total fr">
-            合计：<span>{{totalprice}}</span>元
+            合计：<span>{{totalprice.toFixed(2)  }}</span>元
             <a href="javascript:;"
                class="btn"
                @click="Calculate">去结算</a>
@@ -70,6 +70,7 @@
 import orderheader from '../components/orderheader.vue'
 import navfooter from '../components/NavFooter.vue'
 import servicebar from '../components/servicebar.vue'
+
 export default {
   name: 'cart',
   components: {
@@ -80,7 +81,7 @@ export default {
   }, data () {
     return {
       list: [],
-      isselectall: false,
+      isselectall: true,
     }
   }, mounted () {
     this.getcartlist();
@@ -95,6 +96,25 @@ export default {
 
     },
     Calculate () {
+      var istrue = this.list.every((item) => {
+        return !item.productSelected
+      })
+      if (istrue) {
+        this.$message({
+          showClose: true,
+          message: '至少选择一件商品!!!',
+          center: true,
+          type: "warning",
+          offset: 20
+        })
+      }
+      else {
+        this.$router.push("/order/confirm")
+
+
+
+      }
+      console.log("istrue", istrue);
       console.log("//控制商品是否被选中", this.numberofcases);
     },
     //控制商品是否被选中
@@ -105,6 +125,17 @@ export default {
         }
 
       }
+      //使用findindex函数来查找是不是所有的productSelected都是true
+      let index = this.list.findIndex((value,) => {
+        console.log("value", value);
+        return value.productSelected == false
+      });
+      if (index == -1) {
+        this.isselectall = true
+      } else {
+        this.isselectall = false;
+      }
+      console.log(index);  //   2
       console.log("changechecked");
     },
     deweight (tempArr) {

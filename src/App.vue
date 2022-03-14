@@ -42,12 +42,20 @@ export default {
     //     // 处理成功情况
     //     this.res = response;
     //   })
-
+    console.log("aaaa");
     this.jiegoufuzhi()
-    //获取登陆以后的用户的信息
-    this.getuserinfo();
-    //获取购物车的数量
-    this.getcartnum();
+
+    if (this.$cookie.get("userid")) {
+
+      //获取登陆以后的用户的信息
+      this.getuserinfo();
+      //获取购物车的数量
+      this.getcartnum();
+
+
+
+    }
+
   },
   methods: {
     // 方法定义

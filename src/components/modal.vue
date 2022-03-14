@@ -17,7 +17,7 @@
         <div class="modal-footer">
           <a href="javascript:;"
              class="btn"
-             @click="$emit('submit','查看购物车')"
+             @click.prevent="$emit('submit','查看购物车')"
              v-if="btnType==1">{{sureText}}</a>
           <a href="javascript:;"
              class="btn btn-default"

@@ -100,7 +100,7 @@
                     <h3>{{item.name}}</h3>
                     <p>{{item.subtitle}}</p>
                     <p class="price"
-                       @click="addCart(item.id,item.name,item.subtitle,item.mainImage,item.price)">{{item.price}}元</p>
+                       @click.stop.prevent="addCart(item.id,item.name,item.subtitle,item.mainImage,item.price)">{{item.price}}元</p>
                   </div>
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default {
   methods: {
     // 方法定义
     gotocart (Viewshoppingcart) {
-      this.$router.push("/cart");
+      this.$router.push('/cart')
       console.log("gotocart", Viewshoppingcart);
     },
     closewindow () {
@@ -255,7 +255,6 @@ export default {
     },
     async addCart (id, productname, productsubtitle, productmainImage, productprice,) {
       console.log("点击加入购物车");
-      this.showModal = true;
       let res = await this.$api.post("/carts", {
         "userId": this.$store.state.username,
         "productId": id,
@@ -274,6 +273,7 @@ export default {
         console.log("valvalvalval", val);
         this.$store.dispatch("savecartcount", { cartnum: val.length })
       })
+      this.showModal = true;
     },
     servicebaar () {
       console.log("this.$refs.servicebar", this.$refs.servicebar);
