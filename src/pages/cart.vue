@@ -109,7 +109,7 @@ export default {
         })
       }
       else {
-        this.$router.push("/order/confirm")
+        this.$router.push({ name: "orderconfirm", params: { id: 3 } })
 
 
 

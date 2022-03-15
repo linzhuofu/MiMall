@@ -1,10 +1,10 @@
 <template>
   <div class="order-confirm">
-    <order-header title="订单确认">
+    <orderheader title="订单确认">
       <template v-slot:tip>
         <span>请认真填写收货地址</span>
       </template>
-    </order-header>
+    </orderheader>
     <svg version="1.1"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -44,6 +44,8 @@
             <div class="addr-list clearfix">
               <div class="addr-info"
                    v-for="(item,index) in addresslist"
+                   @click="checkindex=index"
+                   :class="{checked:index==checkindex}"
                    :key="index">
                 <h2>{{item.receiverName}}</h2>
                 <div class="phone">{{item.receiverMobile}}</div>
@@ -57,7 +59,8 @@
                     </svg>
                   </a>
                   <a href="javascript:;"
-                     class="fr">
+                     class="fr"
+                     @click="editAddressModal(item)">
                     <svg class="icon icon-edit">
                       <use xlink:href="#icon-edit"></use>
                     </svg>
@@ -65,7 +68,7 @@
                 </div>
               </div>
               <div class="addr-add"
-                   @click="openAddressModal">
+                   @click="addAddressModal">
                 <div class="icon-add"></div>
                 <div>添加新地址</div>
               </div>
@@ -102,7 +105,7 @@
             </div>
             <div class="item">
               <span class="item-name">商品总价：</span>
-              <span class="item-val">{{totalprice}}元</span>
+              <span class="item-val">{{totalprice.toFixed(2)}}元</span>
             </div>
             <div class="item">
               <span class="item-name">优惠活动：</span>
@@ -114,7 +117,7 @@
             </div>
             <div class="item-total">
               <span class="item-name">应付总额：</span>
-              <span class="item-val">{{totalprice}}元</span>
+              <span class="item-val">{{totalprice.toFixed(2)}}元</span>
             </div>
           </div>
           <div class="btn-group">
@@ -127,13 +130,80 @@
         </div>
       </div>
     </div>
-    <modal title=""
+    <modal title="删除确认"
            btnType="1"
            :showModal="delshowmodal"
-           @close="delshowmodal=false"
+           @close="closemodal"
            @submit="delsubmit()">
       <template v-slot:body>
         <h2>你确定删除此地址吗？</h2>
+      </template>
+    </modal>
+
+    <modal title="新增地址"
+           btnType="1"
+           :showModal="editshowmodal"
+           @close="closemodal"
+           @submit="delsubmit()">
+      <template v-slot:body>
+        <div class="edit-wrap">
+          <div class="item">
+            <input type="text"
+                   class="input"
+                   placeholder="姓名"
+                   v-model="checkeditem.receiverName">
+            <input type="text"
+                   class="input"
+                   placeholder="手机号"
+                   v-model="checkeditem.receiverMobile">
+          </div>
+          <div class="item">
+            <select name="province"
+                    id=""
+                    v-model="checkeditem.receiverProvince">
+              <option value="北京">北京</option>
+              <option value="天津">天津</option>
+              <option value="河北">河北</option>
+            </select>
+            <select name="city"
+                    id=""
+                    v-model="checkeditem.receiverCity">
+              <option value="北京">
+                北京
+              </option>
+              <option value="天津">天津
+
+              </option>
+              <option value="石家庄">石家庄
+
+              </option>
+            </select>
+            <select name="district"
+                    id=""
+                    v-model="checkeditem.receiverDistrict">
+              <option value="北京">
+                昌平
+              </option>
+              <option value="天津">海淀</option>
+              <option value="石家庄">东城</option>
+              <option value="天津">西城</option>
+              <option value="石家庄">顺义</option>
+              <option value="石家庄">房山</option>
+            </select>
+          </div>
+          <div class="item">
+            <textarea name="street"
+                      id=""
+                      v-model="checkeditem.receiverAddress"></textarea>
+          </div>
+          <div class="item">
+            <input type="text"
+                   class="input"
+                   placeholder="
+                   邮编"
+                   v-model="checkeditem.receiverZip">
+          </div>
+        </div>
       </template>
     </modal>
   </div>
@@ -141,25 +211,31 @@
 
 
 <script>
+import orderheader from '../components/orderheader.vue'
 import modal from '../components/modal.vue'
 export default {
   name: "orderconfirm",
   components: {
     modal,
-
+    orderheader
   },
   data () {
     return {
       checkeditem: {},//选中的商品对象
       useraction: '',//用户行为 0：新增 1：编辑 2：删除
       delshowmodal: false,
+      editshowmodal: false,
       addresslist: [],
       cartlist: [],
       count: 0,
-      totalprice: 0
+      totalprice: 0,
+      checkindex: 0,
     }
   },
   mounted () {
+
+
+    console.log(" this.$route.params.id", this.$route.params.id);
     this.getadressinfo();
     this.getcartinfo();
 
@@ -167,10 +243,53 @@ export default {
 
   },
   methods: {
+    orderSubmit () {
+      console.log("ssssssss");
+      var item = this.addresslist[this.checkindex];
+      if (!item) {
+        this.$message({
+          showClose: true,
+          message: "请选择一个收货地址!!!",
+          center: true,
+          type: "error",
+          offset: 20
+        })
+        return;
+      }
+
+      this.$router.push({ path: "/order/pay", query: { orderNo: "88888888" } })
+      // this.$api.post("/orders", {
+      //   shippingId: item.id
+      // }).then((res) => {
+      //   this.$router.push({ path: "/order/pay", query: { orderNo: res.orderNo } })
+      // })
+
+
+    },
+    //编辑地址的按钮
+    editAddressModal (item) {
+      this.checkeditem = item;
+      this.useraction = 1;
+      this.editshowmodal = true;
+    },//新增地址的按钮
+    addAddressModal () {
+      this.checkeditem = {};
+      this.useraction = 0;
+      this.editshowmodal = true;
+    },
+    //关闭弹框的时候还原
+    closemodal () {
+      this.useraction = 0;
+      this.checkeditem = {};
+      this.delshowmodal = false;
+      this.editshowmodal = false;
+    },
+    //点击确定按钮确定删除
     delsubmit () {
       var { checkeditem, useraction } = this;
-      var method, url
+      var method, url, params = {};
       if (this.useraction == 0) {
+
         method = "post"
         url = `/shippings`
       }
@@ -182,12 +301,69 @@ export default {
         method = "delete"
         url = `/shippings/${checkeditem.id}`
       }
-      console.log(checkeditem, useraction);
 
-      this.$api[method](url).then((res) => {
+      if (this.useraction == 0 || this.useraction == 1) {//0和1都是需要传参数的放在一起需要判断正则表达式
+        var { receiverName, receiverPhone, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip, } = checkeditem;
+        params = {
+          receiverName,
+          receiverPhone,
+          receiverMobile,
+          receiverProvince,
+          receiverCity,
+          receiverDistrict,
+          receiverAddress,
+          receiverZip,
+        }
+        var regreceiverMobile = /^[1][3,4,5,6.7,8,9][0-9]{9}$/;
+        var regreceiverZip = /^[1-9][0-9]{5}$/;
+        var message = "";
+        if (!receiverName) {
+          message = "请输入名字"
+        }
+
+        else if (!receiverMobile || !regreceiverMobile.test(receiverMobile)) {
+          message = "请输入11位电话号码"
+        }
+        else if (!receiverProvince) {
+          message = "请输入省份"
+        }
+        else if (!receiverCity) {
+          message = "请输入城市"
+        }
+        else if (!receiverDistrict) {
+          message = "请输入地区"
+        } else if (!receiverAddress) {
+          message = "请输入街道地址"
+        } else if (!receiverZip || !regreceiverZip.test(receiverZip)) {
+          message = "请输入6位邮政编码"
+        }
+        if (message) {
+          this.$message({
+            showClose: true,
+            message: message,
+            center: true,
+            type: "warning",
+            offset: 20
+          })
+          return;
+        }
+
+      }
+      console.log(checkeditem, useraction);
+      this.$api[method](url, params).then((res) => {
         console.log(res);
+        this.getadressinfo();//重新获取收货地址调用接口
+        this.closemodal();//关闭弹窗
+        this.$message({//success提示
+          showClose: true,
+          message: "修改地址成功!!!",
+          center: true,
+          type: "success",
+          offset: 20
+        })
       })
     },
+    //点击删除按钮触发的事件
     deladdress (item) {
       this.checkeditem = item;
       this.useraction = 2;
@@ -377,7 +553,7 @@ export default {
         }
         .item-total {
           .item-val {
-            font-size: 28px;
+            font-size: 18px;
           }
         }
       }

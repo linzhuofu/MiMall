@@ -51,11 +51,7 @@ export default {
       this.getuserinfo();
       //获取购物车的数量
       this.getcartnum();
-
-
-
     }
-
   },
   methods: {
     // 方法定义
