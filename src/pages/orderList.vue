@@ -8,6 +8,8 @@
     <div class="wrapper">
       <div class="container">
         <div class="order-box">
+          <loading v-if="loading"></loading>
+          <nodata v-if="list.length==0"></nodata>
           <div class="order"
                v-for="(item,index) in list"
                :key="index">
@@ -60,25 +62,49 @@
 </template>
 <script>
 import orderheader from './../components/orderheader'
+import nodata from './../components/nodata'
+import loading from './../components/loading'
 export default {
   name: 'order-list',
   components: {
-    orderheader
+    orderheader,
+    loading,
+    nodata
+
   },
   data () {
     return {
       list: [],
+      loading: true,
     }
   },
   mounted () {
-    this.getorderlist();
+    this.getcartinfo();
+    // this.getorderlist();
   },
   methods: {
+    // getcartinfo () {
+    //   console.log(this, "thaaaaaaaaaaaaais");
+    //   new Promise((resolove) => {
+    //     this.$api.post("/carts", {
+    //       "quantity": 1,
+    //     }).then((res) => {
+    //       resolove(res)
+    //     })
+    //   }).then((data) => {
+    //     this.$api.get("/carts").then((res) => {
+    //       console.log("res.length", res.length);
+    //     })
+    //     console.log("datadatadatadatadatadata", data);
+    //   })
+    //   console.log("getcartinfo()");
+    // },
     gopay (orderNo) {
       this.$router.push({ path: "/order/pay", query: { orderNo } })
     },
     getorderlist () {
       this.$api.get("orderslist").then((res) => {
+        this.loading = false
         this.list = res.list;
         console.log("orderslist", res);
       })

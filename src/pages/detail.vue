@@ -99,7 +99,7 @@ export default {
         console.log("valvalvalval", val);
         this.$store.dispatch("savecartcount", { cartnum: val.length })
       })
-      // this.$router.push("/cart")
+      this.$router.push("/cart")
     },
     getproductinfo () {
       let id = this.$route.params.id;
