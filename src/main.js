@@ -12,7 +12,16 @@ import router from "./router"
 import env from "./env"
 import lazyPlugin from 'vue3-lazy'
 
+const ex = require("./test")
+console.log("ex", ex);
+var arr = Object.keys(ex);
 
+console.log(arr); // ['name','sex','age'] 
+
+console.log(arr.length); //
+console.log(module);
+var a = require("./d.js")
+console.log("Aaaaa", a);
 //mock开关
 const mock = true;
 if (mock) {
@@ -56,20 +65,23 @@ axios.create({
 axios.interceptors.response.use(function(response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-
+    console.log(response, "re");
     let res = response.data;
     if (res.status == 0) {
+        console.log("法国绿了");
         return res.data;
+
     } else
     if (res.status == 10) {
         // window.location.href = "/#/login"
     } else {
-        return res
+        // return res
 
 
     }
 }, function(error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
+    console.log("ssss", error);
     return Promise.reject(error);
 });

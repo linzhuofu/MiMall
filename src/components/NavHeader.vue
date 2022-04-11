@@ -12,13 +12,14 @@
         <div class="topbaruser">
           <a href="javascript:;"
              v-if="username">{{username}}</a>
-          <a href="javascript:;"
+          <a href="/#/login"
              v-if="!username">登录</a>
           <a href="javascript:;"
              v-if="username"
              @click="logout">退出</a>
           <a href="javascript:;"
-             v-if="username">我的订单</a>
+             v-if="username"
+             @click="numadd">我的订单</a>
           <a href="javascript:;">注册</a>
           <a href="javascript:;"
              class="my-cart"
@@ -145,6 +146,11 @@ export default {
   name: "navheader",
   data () {
     return {
+      num: 0,
+      food: {
+        id: 1,
+        name: "冰淇淋"
+      },
       phoneList: []
       // 数据
     };
@@ -153,6 +159,14 @@ export default {
     // 组件注册
   },
   methods: {
+    numadd () {
+
+      this.num++;
+      this.food.name = "巧克力"
+      console.log(this.num);
+      console.log(this.$data);
+      Object.assign(this.$data, this.$options.data())
+    },
     getcartnum () {
       this.$api.get("/carts").then((res = []) => {
         console.log("carts用户信息数据", res.data);
@@ -218,6 +232,18 @@ export default {
       return this.$store.state.cartcount;
     }
 
+  },
+
+  watch: {
+    num (newVal, oldVal) {
+      console.log("newVal", newVal);
+      console.log("oldVal", oldVal);
+    },
+
+    "food.name" (newVal, oldVal) {
+      console.log("newVal", newVal);
+      console.log("oldVal", oldVal);
+    }
   }
 }
 </script>

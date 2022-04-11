@@ -1,4 +1,30 @@
 <template>
+  <!-- 作用域插槽 -->
+  <child>
+
+    <template v-slot:default="slotProps">
+      <i class="fas fa-check">aaaa</i>
+      <span class="green">{{ slotProps.item }}</span>
+    </template>
+
+    <template v-slot:header="slotProps">
+      <i class="fas fa-check"></i>
+      <span class="green">{{ slotProps.index }}</span>
+    </template>
+  </child>
+
+  <child>
+    <template v-slot:default="slotProps">
+      <i class="fas fa-check">aaaa</i>
+      <span class="green">{{ slotProps.index }}</span>
+    </template>
+
+    <template v-slot:header="slotProps">
+      <i class="fas fa-check"></i>
+      <span class="green">{{ slotProps.index }}</span>
+    </template>
+  </child>
+  <!-- 作用域插槽 -->
   <div class="index"
        ref="index">
     <div class="container">
@@ -124,7 +150,7 @@
   </div>
 </template>
 <script>
-
+import child from '../components/child.vue'
 import { reactive, } from 'vue';
 import modal from '../components/modal.vue'
 import servicebar from '../components/servicebar.vue'
@@ -145,6 +171,7 @@ import 'swiper/modules/scrollbar/scrollbar.min.css';
 export default {
   name: 'index',
   components: {
+    child,
     servicebar,
     Swiper,
     SwiperSlide,

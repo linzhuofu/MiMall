@@ -30,6 +30,9 @@ export default {
 
 
   mounted () {
+
+
+    console.log();
     // el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
     // 向给定ID的用户发起请求
     // this.$api.get('mock/user/login.json')
@@ -64,16 +67,14 @@ export default {
         this.$store.dispatch("savecartcount", {
           cartnum: res.data.length
         })
-
       })
-
-
     },
     increase () {
       this.$store.commit("increment")
       this.$store.commit("add")
     },
     getuserinfo () {
+      console.log("getuserinfo");
       this.$api.get("/posts").then((res = {}) => {
         console.log("用户信息数据", res);
         // this.username = res.data[res.data.length - 1].username;

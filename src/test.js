@@ -1,0 +1,1 @@
+exports.object = { na: "name", age: 18 };
